@@ -41,6 +41,12 @@
             <canvas id="income-expense-pie" width="300" height="150"></canvas>
         </div>
     </div>
+
+    <div class="import-export">
+    <button onclick="downloadTransactions()">Экспорт</button>
+    <input type="file" id="file-input" accept=".json" onchange="uploadTransactions(event)" style="display:none;">
+    <button onclick="document.getElementById('file-input').click();">Импорт</button>
+</div>
     
     <!-- Подключение библиотеки Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
