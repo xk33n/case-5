@@ -1,0 +1,34 @@
+<html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учет расходов и доходов</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <h1>Учет расходов и доходов</h1>
+    
+    <div class="container">
+        <form id="transaction-form">
+            <label for="amount">Сумма:</label>
+            <input type="number" id="amount" required>
+            
+            <label for="category">Категория:</label>
+            <select id="category">
+                <option value="Продукты">Продукты</option>
+                <option value="Развлечения">Развлечения</option>
+                <option value="Зарплата">Зарплата</option>
+                <option value="Другое">Другое</option>
+            </select>
+            
+            <button type="submit">Добавить</button>
+        </form>
+        
+        <ul id="transactions-list"></ul>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
