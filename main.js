@@ -156,6 +156,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function downloadTransactions() {
+    const jsonData = JSON.stringify(transactions);
+    const blob = new Blob([jsonData], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "transactions.json";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function uploadTransactions(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const importedTransactions = JSON.parse(e.target.result);
+                transactions = importedTransactions;
+                transactionsList.innerHTML = "";
+                importedTransactions.forEach(transaction => {
+                    addTransaction(transaction.amount, transaction.category);
+                });
+                updateBalance();
+                drawExpensesChart();
+                drawIncomeExpensePie();
+            } catch (error) {
+                console.error("Ошибка при парсинге JSON:", error);
+                alert("Невозможно импортировать файл. Проверьте формат данных.");
+            }
+        };
+        reader.readAsText(file);
+    }
+}
     // Инициализация графиков при загрузке страницы
     drawExpensesChart();
     drawIncomeExpensePie();
