@@ -8,46 +8,70 @@
 </head>
 <body>
     <h1>Учет финансов</h1>
-    
-    <div class="container">
-        <!-- Форма для ввода транзакций -->
-        <form id="transaction-form">
-            <label for="amount">Сумма:</label>
-            <input type="number" id="amount" required min="0" step="any">
-            
-            <label for="category">Категория:</label>
-            <select id="category">
-                <option value="products">Продукты</option>
-                <option value="entertainment">Развлечения</option>
-                <option value="salary">Зарплата</option>
-                <option value="other">Другое</option>
-            </select>
-            
-            <button type="submit">Добавить</button>
-        </form>
-        
-        <!-- Список транзакций -->
-        <ul id="transactions-list"></ul>
-        
-        <!-- Раздел для отображения баланса -->
-        <div class="balance-container">
-            <h2>Баланс</h2>
-            <p id="total-balance">0</p>
+
+    <div id="auth-container">
+        <div id="login-form" class="hidden">
+            <h2>Авторизация</h2>
+            <form>
+                <label for="username">Имя пользователя:</label>
+                <input type="text" id="username" placeholder="Введите имя пользователя" required>
+                
+                <button type="submit">Войти</button>
+            </form>
         </div>
-        
-        <!-- Контейнеры для графиков -->
-        <div class="charts-container">
-            <canvas id="expenses-chart" width="400" height="200"></canvas>
-            <canvas id="income-expense-pie" width="300" height="150"></canvas>
+
+        <div id="register-form" class="hidden">
+            <h2>Регистрация</h2>
+            <form>
+                <label for="newUsername">Имя пользователя:</label>
+                <input type="text" id="newUsername" placeholder="Введите новое имя пользователя" required>
+                
+                <button type="submit">Зарегистрироваться</button>
+            </form>
         </div>
     </div>
 
-    <div class="import-export">
-    <button onclick="downloadTransactions()">Экспорт</button>
-    <input type="file" id="file-input" accept=".json" onchange="uploadTransactions(event)" style="display:none;">
-    <button onclick="document.getElementById('file-input').click();">Импорт</button>
-</div>
-    
+    <div id="app-container" class="hidden">
+        <div class="container">
+            <!-- Форма для ввода транзакций -->
+            <form id="transaction-form">
+                <label for="amount">Сумма:</label>
+                <input type="number" id="amount" required min="0" step="any">
+                
+                <label for="category">Категория:</label>
+                <select id="category">
+                    <option value="products">Продукты</option>
+                    <option value="entertainment">Развлечения</option>
+                    <option value="salary">Зарплата</option>
+                    <option value="other">Другое</option>
+                </select>
+                
+                <button type="submit">Добавить</button>
+            </form>
+            
+            <!-- Список транзакций -->
+            <ul id="transactions-list"></ul>
+
+            <!-- Раздел для отображения баланса -->
+            <div class="balance-container">
+                <h2>Баланс</h2>
+                <p id="total-balance">0</p>
+            </div>
+
+            <!-- Контейнеры для графиков -->
+            <div class="charts-container">
+                <canvas id="expenses-chart" width="400" height="200"></canvas>
+                <canvas id="income-expense-pie" width="300" height="150"></canvas>
+            </div>
+
+            <div class="import-export">
+                <button onclick="downloadTransactions()">Экспорт</button>
+                <input type="file" id="file-input" accept=".json" onchange="uploadTransactions(event)" style="display:none;">
+                <button onclick="document.getElementById('file-input').click();">Импорт</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Подключение библиотеки Chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="main.js"></script>
