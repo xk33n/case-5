@@ -1,11 +1,106 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const transactionForm = document.getElementById('transaction-form');
-    const transactionsList = document.getElementById('transactions-list');
-    const totalBalance = document.getElementById('total-balance');
-    const expensesChartCanvas = document.getElementById('expenses-chart').getContext('2d');
-    const incomeExpensePieCanvas = document.getElementById('income-expense-pie').getContext('2d');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const appContainer = document.getElementById('app-container');
+    const usernameInput = document.getElementById('username');
+    const newUsernameInput = document.getElementById('newUsername');
 
+    let currentUser = null;
     let transactions = [];
+
+        // Проверяем, существует ли пользователь в localStorage
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        loadUserData(currentUser.username);
+        showApp();
+    } else {
+        showLoginForm();
+    }
+
+    // Функция для показа формы авторизации
+    function showLoginForm() {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        appContainer.classList.add('hidden');
+    }
+
+    // Функция для показа формы регистрации
+    function showRegisterForm() {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        appContainer.classList.add('hidden');
+    }
+
+    // Функция для показа основного контента приложения
+    function showApp() {
+        loginForm.classList.add('hidden');
+        registerForm.classList.add('hidden');
+        appContainer.classList.remove('hidden');
+    }
+
+    // Функция для загрузки данных пользователя
+    function loadUserData(username) {
+        const userData = localStorage.getItem(username);
+        if (userData) {
+            transactions = JSON.parse(userData).transactions || [];
+            renderTransactions();
+            updateBalance();
+            drawExpensesChart();
+            drawIncomeExpensePie();
+        }
+    }
+
+    // Функция для сохранения данных пользователя
+    function saveUserData() {
+        const userData = {
+            username: currentUser.username,
+            transactions: transactions
+        };
+        localStorage.setItem(currentUser.username, JSON.stringify(userData));
+    }
+
+    // Обработчик формы авторизации
+    loginForm.querySelector('form').addEventListener('submit', event => {
+        event.preventDefault();
+
+        const username = usernameInput.value.trim();
+
+        if (username) {
+            const userExists = localStorage.getItem(username);
+            if (userExists) {
+                currentUser = { username };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                loadUserData(username);
+                showApp();
+            } else {
+                alert('Пользователь не найден.');
+            }
+        } else {
+            alert('Пожалуйста, введите имя пользователя.');
+        }
+    });
+
+    // Обработчик формы регистрации
+    registerForm.querySelector('form').addEventListener('submit', event => {
+        event.preventDefault();
+
+        const newUsername = newUsernameInput.value.trim();
+
+        if (newUsername) {
+            const userExists = localStorage.getItem(newUsername);
+            if (!userExists) {
+                currentUser = { username: newUsername };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                localStorage.setItem(newUsername, JSON.stringify({ transactions: [] }));
+                showApp();
+            } else {
+                alert('Такое имя пользователя уже занято.');
+            }
+        } else {
+            alert('Пожалуйста, введите имя пользователя.');
+        }
+    });
 
     // Функция для обновления баланса
     function updateBalance() {
@@ -118,12 +213,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         transactionsList.appendChild(li);
 
-        // Обновляем баланс после добавления транзакции
         updateBalance();
-
-        // Перерисовываем графики
         drawExpensesChart();
         drawIncomeExpensePie();
+        saveUserData();
 
         // Обработчик удаления транзакции
         removeButton.addEventListener('click', () => {
@@ -134,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateBalance();
                 drawExpensesChart();
                 drawIncomeExpensePie();
+                saveUserData();
             }
         });
     }
