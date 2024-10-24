@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#transaction-form input,
+#transaction-form select {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#transactions-list {
+    list-style-type: none;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-top: 30px;
+}
+
+.transaction-item {
+    padding: 15px;
+}
+
+.transaction-category {
+    color: gray;
+    font-size: 14px;
+}
