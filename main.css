@@ -50,3 +50,12 @@ body {
 .chart-title {
     text-align: center;
 }
+
+#auth-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.hidden {
+    display: none;
+}
